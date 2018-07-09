@@ -1,0 +1,14 @@
+ColoredDigraph example from modified Kodkod codebase
+Observations. Aug 9th.
+
+Global compression and local compression both give the same definite provenance (and nothing more):
+
+(this/Person.member_of[unused0, Group$0])
+	(this/Person[unused0]) <<<UNFINISHED>>>
+	(!this/Person.member_of[unused0, peds$0]) <<<UNFINISHED>>>
+	((all no_thief_in_seclab_this: one this/Person | (some (no_thief_in_seclab_this . this/Person.member_of) && ((no_thief_in_seclab_this . this/Person.member_of) in ((this/alas + this/peds) + this/Group remainder)))){}) <<<UNFINISHED>>>
+	(!this/Person.member_of[unused0, alas$0]) <<<UNFINISHED>>>
+
+The constraint says that the person must be a member of some group (alas+peds+group_remainder).
+
+***** Note the implicit membership: Group$0 *is* the remainder because of bounds, which are implicit not explicit.

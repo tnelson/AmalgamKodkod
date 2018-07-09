@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<alloy>
+
+<view nodetheme="Martha" edgetheme="Neon" useOriginalAtomNames="yes" hidePrivate="no" hideMeta="no">
+
+<defaultnode shape="Tpl Octagon"/>
+
+<defaultedge/>
+
+<node>
+   <type name="NODE"/>
+   <type name="Int"/>
+   <type name="String"/>
+   <type name="seq/Int"/>
+</node>
+
+<node shape="Dbl Octagon">
+	<type name="S"/>
+</node>
+<node shape="Octagon">
+	<type name="P"/>
+</node>
+
+<node color="Green">
+   <type name="POS"/>
+</node>
+<node color="Red">
+   <type name="NEG"/>
+</node>
+
+
+
+</view>
+
+</alloy>

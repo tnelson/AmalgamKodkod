@@ -1,0 +1,24 @@
+ColoredDigraph example from modified Kodkod codebase
+Observations. Aug 9th.
+
+Global produces 1 (1 definite):
+
+(edge[Node$1, Node$2])
+	(!color[Node$1, Blue]) <<<UNFINISHED>>>
+	((all n: one Node | (((n . color) = Red) <=> some (n . edge))){}) <<<UNFINISHED>>>
+	(color[Node$1, Red]) <<<UNFINISHED>>>
+	(Node[Node$1]) <<<UNFINISHED>>>
+	(!edge[Node$1, Node$0]) <<<UNFINISHED>>>
+	(!edge[Node$1, Node$1]) <<<UNFINISHED>>>
+
+This is a bit large, but necessary. The !blue is there because this stage is
+unaware that red and blue are disjoint. (Ask for explanation of !blue to find
+that out.) Because Node1 is a Node, and red, and no other edges out, this edge
+must exist.
+
+--------------------
+
+Local with consequent compression gives us this same provenance.
+Local WITHOUT consequent compression gives us this same provenance.
+
+--------------------

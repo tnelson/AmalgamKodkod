@@ -1,0 +1,89 @@
+BuggyDirectedTree example from modified Kodkod codebase
+Observations. Odd-looking provenances marked with *****.
+Aug 9th
+
+~~~~~~~~
+*With* consequent compression local produces the same 4 provenances as global.
+This is in contrast to Animal, which (as of 8:43pm) is producing only *one* vs global's 11.
+(For ColoredDigraph, local also also produces the same as global.)
+
+Numbers below are for local without consequent compression.
+~~~~~~~~
+
+
+4(1) global vs.
+7(1) local.
+
+Here working as expected, with local a *superset* of global, adding some indefinites that involve secondaries.
+Did not fail to mark the only defn. as defn, although it only gave it as the *2nd* provenance, not 1st.
+
+LOCAL PROVENANCES:
+
+-- LOCAL ONLY (can't expect to be subsumed if generated first. just the foibles of search approach)
+(!$isDirectedTreeBugMin_r[Node$2, Node$1]) <<<INDEFINITE: [-8, -42]>>>
+	($isDirectedTreeBugMin_r[Node$0, Node$2]) <<<UNFINISHED>>>
+	(!no ((iden & (((ints + String) + this/Node) -> univ)) & ^$isDirectedTreeBugMin_r){}) <<<UNFINISHED>>>
+
+-- BOTH [definite] :: no cycles, and this prospective edge's inverse is there already. OK.
+(!$isDirectedTreeBugMin_r[Node$2, Node$1])
+	(!no ((iden & (((ints + String) + this/Node) -> univ)) & ^$isDirectedTreeBugMin_r){}) <<<UNFINISHED>>>
+	($isDirectedTreeBugMin_r[Node$1, Node$2]) <<<UNFINISHED>>>
+
+*****
+-- LOCAL ONLY (can't expect subsumed [this has only one consequent which had better not be directly definite], but could try to remove the -36 via resolution?)
+(!$isDirectedTreeBugMin_r[Node$2, Node$1]) <<<INDEFINITE: [-36, -8]>>>
+	(!no ((iden & (((ints + String) + this/Node) -> univ)) & ^$isDirectedTreeBugMin_r){}) <<<UNFINISHED>>>
+
+-- BOTH	[not e2,1 or not e2,0] :: just from inverse injectivity, same thing as below. OK.
+(!$isDirectedTreeBugMin_r[Node$2, Node$1]) <<<INDEFINITE: [-7, -8]>>>
+	(((~$isDirectedTreeBugMin_r . $isDirectedTreeBugMin_r) in (iden & (((ints + String) + this/Node) -> univ))){}) <<<UNFINISHED>>>
+
+-- BOTH [not e2,1 or not e2,2] :: just from inverse-injectivity, if e21 and e22, we could go backwards via e21 and forwards via e22 and (1,2) not in iden. OK.
+(!$isDirectedTreeBugMin_r[Node$2, Node$1]) <<<INDEFINITE: [-8, -9]>>>
+	(((~$isDirectedTreeBugMin_r . $isDirectedTreeBugMin_r) in (iden & (((ints + String) + this/Node) -> univ))){}) <<<UNFINISHED>>>
+
+-- BOTH [not e1,0 or not e2,1] :: because of no cycles, and one edge that exists. OK.
+(!$isDirectedTreeBugMin_r[Node$2, Node$1]) <<<INDEFINITE: [-4, -8]>>>
+	($isDirectedTreeBugMin_r[Node$0, Node$2]) <<<UNFINISHED>>>
+	(!no ((iden & (((ints + String) + this/Node) -> univ)) & ^$isDirectedTreeBugMin_r){}) <<<UNFINISHED>>>
+
+*****
+-- LOCAL ONLY :: (can't expect subsumed [one above has an extra antecedent], but could try to remove the -33 via resolution?)
+(!$isDirectedTreeBugMin_r[Node$2, Node$1]) <<<INDEFINITE: [-33, -4, -8]>>>
+	(!no ((iden & (((ints + String) + this/Node) -> univ)) & ^$isDirectedTreeBugMin_r){}) <<<UNFINISHED>>>
+
+
+
+
+
+	--- pvm ---
+1 => $isDirectedTreeBugMin_r
+     => $isDirectedTreeBugMin_r[Node$0, Node$0]
+2 => $isDirectedTreeBugMin_r
+     => $isDirectedTreeBugMin_r[Node$0, Node$1]
+3 => $isDirectedTreeBugMin_r
+     => $isDirectedTreeBugMin_r[Node$0, Node$2]
+4 => $isDirectedTreeBugMin_r
+     => $isDirectedTreeBugMin_r[Node$1, Node$0]
+5 => $isDirectedTreeBugMin_r
+     => $isDirectedTreeBugMin_r[Node$1, Node$1]
+6 => $isDirectedTreeBugMin_r
+     => $isDirectedTreeBugMin_r[Node$1, Node$2]
+7 => $isDirectedTreeBugMin_r
+     => $isDirectedTreeBugMin_r[Node$2, Node$0]
+8 => $isDirectedTreeBugMin_r
+     => $isDirectedTreeBugMin_r[Node$2, Node$1]
+9 => $isDirectedTreeBugMin_r
+     => $isDirectedTreeBugMin_r[Node$2, Node$2]
+
+
+
+     	-- acyclic:
+	no iden & ^edges
+	-- injective:
+	// BUG! Flipped transpose both under- and over-
+	// constrains the problem.
+	~edges.edges in iden // [?] how are rel ops translated?
+	//r.~r in iden // <- this is correct
+	-- connected:
+	(Node -> Node) in ^(edges + ~edges)
